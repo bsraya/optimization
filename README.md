@@ -1,1 +1,1 @@
-# numerical-optimization
+# Numerical Optimization Projects
