@@ -1,13 +1,11 @@
 from sklearn import datasets
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 iris = datasets.load_iris()
 features = iris.data 
@@ -57,7 +55,8 @@ sns.scatterplot(
     hue = species_names
 )
 
-line, = ax.plot(sepal_length, gd_loss['intercept'][0] + gd_loss['coefficient'][0] * sepal_length,'r-', linewidth = 2)
+line, = ax.plot(sepal_length, gd_loss['intercept'][0] + gd_loss['coefficient'][0] * sepal_length, c='#f28c28', linestyle='-', linewidth=2)
+plt.title("Regression line movement")
 def update(frame_num):
     label = 'timestep {0}'.format(frame_num + 1)
     line.set_ydata(
@@ -66,5 +65,5 @@ def update(frame_num):
     ax.set_xlabel(label)
     return line, ax
 
-anim = FuncAnimation(fig, update, repeat = True, frames=np.arange(0, 10000, 50), interval=10)
-anim.save('./animation.gif', writer='imagemagick', fps=60)
+anim = FuncAnimation(fig, update, repeat = True, frames=np.arange(0, 10000, 100), interval=10)
+anim.save('./gd.gif', writer = PillowWriter(fps=60))
